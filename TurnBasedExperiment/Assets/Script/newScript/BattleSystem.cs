@@ -16,17 +16,17 @@ public class BattleSystem : MonoBehaviour
     Units[] enemyUnits;
     public BS_HUD bsHUD;
     int itemsIndex;
-    
-    [HideInInspector] 
+
+    [HideInInspector]
     public List<int> DeadIndex;
 
     private int selectedEnemyIndex = -1;
     [HideInInspector]
     public int currentEnemyIndex;
-    
-    [HideInInspector] 
+
+    [HideInInspector]
     public int CountEnemies;
-    
+
     [HideInInspector]
     public Vector3 PlayerDirection;
 
@@ -39,7 +39,7 @@ public class BattleSystem : MonoBehaviour
 
     List<Units> Urutan;
 
-    [HideInInspector] 
+    [HideInInspector]
     public static BattleSystem Instance { get; private set; } // Singleton instance
 
     private void Awake()
@@ -91,37 +91,79 @@ public class BattleSystem : MonoBehaviour
             {
                 if (Input.GetKeyUp(KeyCode.D))
                 {
-                    if (enemyUnits[currentEnemyIndex+1] != null || enemyUnits[currentEnemyIndex + 2] != null)
+                    // Check if the current index is 0
+                    if (currentEnemyIndex == 2)
                     {
-                        do
-                        {
-                            currentEnemyIndex++;
-                            if (enemyUnits[currentEnemyIndex] != null) break;
-                        } while (currentEnemyIndex < enemyUnits.Length - 1);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("index is out of range");
+                        // Stay at index 0
+                        SelectEnemy(currentEnemyIndex);
                     }
 
-                    SelectEnemy(currentEnemyIndex);
+                    else
+                    {
+                        // Check if the previous enemy is not null
+                        if (enemyUnits[currentEnemyIndex + 1] != null)
+                        {
+                            currentEnemyIndex++;
+                            SelectEnemy(currentEnemyIndex);
+                        }
+                        else
+                        {
+                            bool validEnemyFound = false;
+                            for (int i = currentEnemyIndex + 1; i <= 2; i++)
+                            {
+                                if (enemyUnits[i] != null)
+                                {
+                                    currentEnemyIndex = i;
+                                    validEnemyFound = true;
+                                    break;
+                                }
+                            }
+                            if (!validEnemyFound)
+                            {
+                                Debug.LogWarning("No valid enemy found to the left.");
+                            }
+
+                            SelectEnemy(currentEnemyIndex);
+                        }
+                    }
                 }
                 if (Input.GetKeyUp(KeyCode.A))
                 {
-                    if (enemyUnits[currentEnemyIndex - 1] != null || enemyUnits[currentEnemyIndex - 2] != null)
+                    // Check if the current index is 0
+                    if (currentEnemyIndex == 0)
                     {
-                        do
-                        {
-                            currentEnemyIndex--;
-                            if (enemyUnits[currentEnemyIndex] != null) break;
-                        } while (currentEnemyIndex > 0);
-                    }
-                    else
-                    {
-                        Debug.LogWarning("index is out of range");
+                        // Stay at index 0
+                        SelectEnemy(currentEnemyIndex);
                     }
 
-                    SelectEnemy(currentEnemyIndex);
+                    else
+                    {
+                        // Check if the previous enemy is not null
+                        if (enemyUnits[currentEnemyIndex - 1] != null)
+                        {
+                            currentEnemyIndex--;
+                            SelectEnemy(currentEnemyIndex);
+                        }
+                        else
+                        {
+                            bool validEnemyFound = false;
+                            for (int i = currentEnemyIndex - 1; i >= 0; i--)
+                            {
+                                if (enemyUnits[i] != null)
+                                {
+                                    currentEnemyIndex = i;
+                                    validEnemyFound = true;
+                                    break;
+                                }
+                            }
+                            if (!validEnemyFound)
+                            {
+                                Debug.LogWarning("No valid enemy found to the left.");
+                            }
+
+                            SelectEnemy(currentEnemyIndex);
+                        }
+                    }
                 }
             }
 
@@ -210,7 +252,7 @@ public class BattleSystem : MonoBehaviour
     {
         Debug.Log("Player turn...");
         state = BattleState.PLAYERTURN;
-  
+
         itemsIndex = bsHUD.GetItemsIndex();
     }
 
@@ -225,7 +267,7 @@ public class BattleSystem : MonoBehaviour
         //damage enemy
         bool isDead = false;
         Debug.Log("EnemyIndex[" + Index + "]  && ItemsIndex[" + itemsIndex + "] ");
-        if(itemsIndex == enemyUnits[Index].unitLevel)
+        if (itemsIndex == enemyUnits[Index].unitLevel)
         {
             isDead = enemyUnits[Index].TakeDamage(playerUnits.damage);
             enemyUnits[Index].GetEnemyAnimHurt();
@@ -265,7 +307,7 @@ public class BattleSystem : MonoBehaviour
 
             //there is no enemy left
             if (CountEnemies <= 0)
-            {   
+            {
                 state = BattleState.WON;
                 EndBattle();
             }
@@ -312,7 +354,7 @@ public class BattleSystem : MonoBehaviour
         {
             bsHUD.UpdateTurnText(); Debug.Log("player WON");
         }
-        else if(state == BattleState.LOST)
+        else if (state == BattleState.LOST)
         {
             bsHUD.UpdateTurnText(); Debug.Log("Defeated");
         }

@@ -184,6 +184,10 @@ PrefabInstance:
       value: 0.15773219
       objectReference: {fileID: 0}
     - target: {fileID: 4870552773557632513, guid: 07012fb746de9224eb2c0c5c58a0c828, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 6c8cc2dd826205e43a2a1f0df81280b0, type: 3}
+    - target: {fileID: 4870552773557632513, guid: 07012fb746de9224eb2c0c5c58a0c828, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: c29619af0c5e8da448c7f6e0d1103c88, type: 2}
@@ -309,7 +313,7 @@ MonoBehaviour:
   SPD: 123
   ExtraSPD: 0.22
   action: 0
-  damage: 400
+  damage: 40
   Selisih: 0
   maxHP: 150
   currentHP: 150
