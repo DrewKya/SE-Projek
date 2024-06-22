@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BS_HUD : MonoBehaviour
 {
     public TextMeshProUGUI turnText;
+    
     public Image items;
     public Sprite[] SpriteItems;
     public List<Image> LogoTurnSequence;

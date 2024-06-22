@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
 
@@ -16,6 +18,8 @@ public class BattleSystem : MonoBehaviour
     Units[] enemyUnits;
     public BS_HUD bsHUD;
     int itemsIndex;
+
+    public TextMeshProUGUI DamageText;
 
     [HideInInspector]
     public List<int> DeadIndex;
@@ -271,6 +275,14 @@ public class BattleSystem : MonoBehaviour
         {
             isDead = enemyUnits[Index].TakeDamage(playerUnits.damage);
             enemyUnits[Index].GetEnemyAnimHurt();
+            DamageText.text = playerUnits.damage.ToString();
+            StartCoroutine(TextToEmpty(1.5f));
+            
+        }
+        else
+        {
+            DamageText.text = "Immune";
+            StartCoroutine(TextToEmpty(1.5f));
         }
         PlayerDirection = enemyStation[1].position - playerStation.position;
 
@@ -327,10 +339,18 @@ public class BattleSystem : MonoBehaviour
         isPlayerAttacking = false;
     }
 
+    IEnumerator TextToEmpty(float time)
+    {
+        yield return new WaitForSeconds(time);
+        DamageText.text = " ";
+    }
+
     IEnumerator EnemyTurn(int Enemyindex)
     {
         yield return new WaitForSeconds(2f);
         bool isDead = playerUnits.TakeDamage(enemyUnits[Enemyindex].damage);
+        DamageText.text = enemyUnits[Enemyindex].damage.ToString();
+        StartCoroutine(TextToEmpty(1.5f));
         Debug.Log("Enemy" + Enemyindex + " is attacking...");
 
         yield return new WaitForSeconds(1f);
@@ -353,6 +373,7 @@ public class BattleSystem : MonoBehaviour
         if (state == BattleState.WON)
         {
             bsHUD.UpdateTurnText(); Debug.Log("player WON");
+            SceneManager.LoadScene(0);
         }
         else if (state == BattleState.LOST)
         {

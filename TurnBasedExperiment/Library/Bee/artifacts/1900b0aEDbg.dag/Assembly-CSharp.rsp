@@ -385,6 +385,7 @@
 "Assets/Brackeys/HealthBar.cs"
 "Assets/changeColor.cs"
 "Assets/ChangeSceneOnCollect.cs"
+"Assets/ClearPlayerPrefs.cs"
 "Assets/Mini First Person Controller/Scripts/Components/Crouch.cs"
 "Assets/Mini First Person Controller/Scripts/Components/FirstPersonAudio.cs"
 "Assets/Mini First Person Controller/Scripts/Components/GroundCheck.cs"

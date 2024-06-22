@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Units : MonoBehaviour
@@ -9,6 +10,7 @@ public class Units : MonoBehaviour
     public int unitLevel;
     public int SPD;
     public float ExtraSPD;
+
     [HideInInspector] public float action;
     public int damage;
     [HideInInspector] public int Selisih;
@@ -26,7 +28,7 @@ public class Units : MonoBehaviour
     {
         currentHP = maxHP;
         healthBar.SetMaxHealth(maxHP);
-        anim = GetComponent<Animator>();        
+        anim = GetComponent<Animator>();
     }
     private float CalculateAction()
     {

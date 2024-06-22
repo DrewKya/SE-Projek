@@ -313,7 +313,7 @@ MonoBehaviour:
   SPD: 123
   ExtraSPD: 0.22
   action: 0
-  damage: 40
+  damage: 50
   Selisih: 0
   maxHP: 150
   currentHP: 150
